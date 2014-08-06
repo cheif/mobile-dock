@@ -49,12 +49,38 @@ module coil_holder(pos=[0,0,0]){
 
 module front(){
     // The front-plate
-    translate([0,0,-thickness/2]){
-        cube(size=[70, 55, thickness], center=true);
+    hull(){
+        translate([-40, -25, -thickness]) cylinder(r=5, h=thickness);
+        translate([40, -25, -thickness]) cylinder(r=5, h=thickness);
+        translate([-45, 0, -thickness]){
+            cube(size=[90, 40, thickness]);
+    }
+    }
+}
+module front_piece(){
+    // The whole front-piece
+    union(){
+        coil_holder();
+        mag_holders();
+        front();
+    }
+}
+
+module rotated_front(){
+    rotate([-110]){
+        translate([0, -40]){
+            front_piece();
+        }
+    }
+}
+module base(){
+    // The base
+    translate([-45, 0, 0]){
+        cube([90, 70, thickness]);
     }
 }
 union(){
-    coil_holder();
-    mag_holders();
-    front();
+    base();
+    rotated_front();
 }
+
