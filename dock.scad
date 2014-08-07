@@ -47,40 +47,75 @@ module coil_holder(pos=[0,0,0]){
     }
 }
 
-module front(){
-    // The front-plate
-    hull(){
-        translate([-40, -25, -thickness]) cylinder(r=5, h=thickness);
-        translate([40, -25, -thickness]) cylinder(r=5, h=thickness);
-        translate([-45, 0, -thickness]){
-            cube(size=[90, 40, thickness]);
-    }
+module front_outline(){
+    // Outline for the whole front
+    difference(){
+        hull(){
+            translate([-40, -25, -thickness]) cylinder(r=5, h=thickness);
+            translate([40, -25, -thickness]) cylinder(r=5, h=thickness);
+            translate([-45, 0, -thickness]){
+                cube(size=[90, 40, thickness]);
+            }
+        }
+        hull(){
+            translate([-40+thickness, -25+thickness, -1]) cylinder(r=5, h=2);
+            translate([40-thickness, -25+thickness, -1]) cylinder(r=5, h=2);
+            translate([-45+thickness, -thickness, -1]){
+                cube(size=[90-2*thickness, 40, 2]);
+            }
+        }
     }
 }
-module front_piece(){
+
+module front_plate(){
+    // The front-plate
+    hull(){
+        front_outline();
+    }
+    translate([0,0,5]){
+        resize([0, 0, 5]) front_outline();
+    }
+}
+module front(){
     // The whole front-piece
     union(){
         coil_holder();
         mag_holders();
-        front();
+        front_plate();
     }
 }
 
 module rotated_front(){
+    difference() {
     rotate([-110]){
         translate([0, -40]){
-            front_piece();
+            front();
         }
     }
+    rotate([180, 0, 180]){
+        translate([-50, 0]){
+            cube([100, 100, 10]);
+        }
+    }
+    }
 }
+
 module base(){
     // The base
     translate([-45, 0, 0]){
         cube([90, 70, thickness]);
     }
 }
-union(){
-    base();
-    rotated_front();
+
+module main(){
+    difference(){
+        union(){
+            base();
+            rotated_front();
+        }
+    }
 }
 
+main();
+//front();
+//rotated_front();
