@@ -78,6 +78,19 @@ module front_outline(){
     }
 }
 
+module qi_logo(){
+    //Logotype
+    translate([-18, 30, -1]){
+        linear_extrude(height=0.5){
+            rotate([0, 180, 180]){
+                resize([30, 0], auto=true){
+                    import("qi-logo.dxf");
+                }
+            }
+        }
+    }
+}
+
 module front_plate(){
     // The front-plate
     hull(){
@@ -86,7 +99,9 @@ module front_plate(){
     translate([0,0,5]){
         resize([0, 0, 5]) front_outline();
     }
+    qi_logo();
 }
+
 module front(){
     // The whole front-piece
     union(){
@@ -114,7 +129,7 @@ module rotated_front(){
 module base(){
     // The base
     translate([-30, 0, 0]){
-        cube([60, 50, thickness]);
+        cube([60, 70, thickness]);
     }
 }
 
@@ -127,6 +142,7 @@ module main(){
     }
 }
 
-main();
+//main();
 //front();
 //rotated_front();
+main();
