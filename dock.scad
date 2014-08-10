@@ -62,17 +62,17 @@ module front_outline(){
     // Outline for the whole front
     difference(){
         hull(){
-            translate([-30, -25, -thickness]) cylinder(r=5, h=thickness);
-            translate([30, -25, -thickness]) cylinder(r=5, h=thickness);
-            translate([-35, 0, -thickness]){
-                cube(size=[70, 40, thickness]);
+            translate([-25, -25, -thickness]) cylinder(r=5, h=thickness);
+            translate([25, -25, -thickness]) cylinder(r=5, h=thickness);
+            translate([-30, 0, -thickness]){
+                cube(size=[60, 40, thickness]);
             }
         }
         hull(){
-            translate([-30+thickness, -25+thickness, -1]) cylinder(r=5, h=2);
-            translate([30-thickness, -25+thickness, -1]) cylinder(r=5, h=2);
-            translate([-35+thickness, -thickness, -1]){
-                cube(size=[70-2*thickness, 40, 2]);
+            translate([-25+thickness, -25+thickness, -1]) cylinder(r=5, h=2);
+            translate([25-thickness, -25+thickness, -1]) cylinder(r=5, h=2);
+            translate([-30+thickness, -thickness, -1]){
+                cube(size=[60-2*thickness, 40, 2]);
             }
         }
     }
@@ -113,8 +113,8 @@ module rotated_front(){
 
 module base(){
     // The base
-    translate([-35, 0, 0]){
-        cube([70, 70, thickness]);
+    translate([-30, 0, 0]){
+        cube([60, 50, thickness]);
     }
 }
 
