@@ -30,8 +30,15 @@ module mag_holder(pos){
 
 module mag_holders(){
     // All magnet holders
-    for (pos = mag_centers){
-        mag_holder(pos);
+    difference(){
+        for (pos = mag_centers){
+            mag_holder(pos);
+        }
+        // Remove a cross in the middle
+        rotate(45){
+            cube([40, 3, 20], center=true);
+            cube([3, 40, 20], center=true);
+        }
     }
 }
 
@@ -43,6 +50,10 @@ module coil_holder(pos=[0,0,0]){
         for(pos = mag_centers){
             mag_holder(pos);
             high_mag([pos[0], pos[1], -1]);
+        }
+        // Remove a channel at the bottom for wires
+        translate([0, 10]){
+            cube([6, 40, 20], center=true);
         }
     }
 }
