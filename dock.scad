@@ -3,10 +3,20 @@ thickness = 0.7;
 mag_centers = [[-16, -16], [-16, 16],
                [16, -16], [16, 16]];
 
+mag_thickness = 2.5;
+mag_radius = 5;
+
+coil_thickness = 2;
+coil_radius = 25.5;
+
+board_width = 40;
+board_depth = 31;
+board_thickness = 3;
+
 module high_mag(pos){
     // The magnet, only very high
-    radius = 6;
-    height = 100;
+    radius = mag_radius;
+    height = mag_thickness*10;
     translate(pos){
         cylinder(h=height, r=radius);
     }
@@ -25,7 +35,7 @@ module hollow(pos, radius, height) {
 }
 module mag_holder(pos){
     // Holder of one magnet
-    hollow(pos, 6, 3);
+    hollow(pos, mag_radius, mag_thickness);
 }
 
 module mag_holders(){
@@ -45,7 +55,7 @@ module mag_holders(){
 module coil_holder(pos=[0,0,0]){
     // Holder of the charging-coil
     difference(){
-        hollow(pos, 25, 5);
+        hollow(pos, coil_radius, coil_thickness + mag_thickness);
         // Remove intersection with the mag-holders
         for(pos = mag_centers){
             mag_holder(pos);
@@ -53,7 +63,7 @@ module coil_holder(pos=[0,0,0]){
         }
         // Remove a channel at the bottom for wires
         translate([0, 10]){
-            cube([6, 40, 20], center=true);
+            cube([12, 40, 20], center=true);
         }
     }
 }
@@ -129,7 +139,7 @@ module rotated_front(){
 module base(){
     // The base
     translate([-30, 0, 0]){
-        cube([60, 70, thickness]);
+        cube([60, 40, thickness]);
     }
 }
 
@@ -142,7 +152,15 @@ module main(){
     }
 }
 
+module board(){
+    // The board
+    translate([-board_width/2, 5, thickness]){
+        cube([board_width, board_depth, board_thickness]);
+    }
+}
+
 //main();
 //front();
 //rotated_front();
 main();
+//board();
