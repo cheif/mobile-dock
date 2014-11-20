@@ -143,19 +143,38 @@ module base(){
     }
 }
 
+module thick_board(){
+    // The board
+        cube([board_width, board_depth, board_thickness+2]);
+}
+
+module board_holder() {
+    // Corners around the board to hold it in place
+    difference() {
+    translate([-board_width/2-1, 6, thickness]){
+        difference() {
+            cube([board_width+2*thickness, board_depth+2*thickness, board_thickness]);
+            translate([2, -1, -1]) {
+                cube([board_width-2, board_depth+4, board_thickness+2]);
+            }
+            translate([-1, 2, -1]) {
+                cube([board_width+4, board_depth-2, board_thickness+2]);
+            }
+            translate([thickness, thickness, -1]) {
+                thick_board();
+            }
+        }
+    }
+    }
+}
+
 module main(){
     difference(){
         union(){
             base();
             rotated_front();
+            board_holder();
         }
-    }
-}
-
-module board(){
-    // The board
-    translate([-board_width/2, 5, thickness]){
-        cube([board_width, board_depth, board_thickness]);
     }
 }
 
@@ -163,4 +182,3 @@ module board(){
 //front();
 //rotated_front();
 main();
-//board();
